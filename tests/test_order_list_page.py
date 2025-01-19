@@ -9,7 +9,7 @@ class TestOrderList:
     @allure.description('Кликаем на кнопку "Лента заказов" и переходим на страницу с заказами')
     def test_click_button_order_list(self, driver):
         page = OrderListPage(driver)
-        page.click_order_list()
+        page.click_order_feed()
 
         assert page.get_current_url() == Urls.BASE_PAGE + Urls.ORDER_LIST_PAGE
 
@@ -17,7 +17,7 @@ class TestOrderList:
     @allure.description('Кликаем на "Ленту заказов", далее на любую карточку заказа, ждем открытия окна с заказом')
     def test_click_order_card(self, driver):
         page = OrderListPage(driver)
-        page.click_order_list()
+        page.click_order_feed()
         page.wait_and_find_order_card()
         page.click_order_card()
         order = page.wait_and_find_order_card_window()
@@ -87,9 +87,9 @@ class TestOrderList:
         page.enter_account()
         page.enter_profile_history()
 
-        order_in_profile = page.get_order_number_text()
-        page.click_order_list_find_in_work()
-        order_in_work = page.number_in_work_text()
+        order_number_from_profile = page.get_order_number_text()
+        page.click_order_feed()
+        order = page.find_order_in_feed(order_number_from_profile)
 
-        assert order_in_work in (order_in_profile[1:]) or (str(int(order_in_profile[1:])-1))
+        assert order is not None
 

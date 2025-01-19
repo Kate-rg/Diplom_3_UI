@@ -9,8 +9,14 @@ from pages.main_page import MainPage
 
 class OrderListPage(BasePage):
     @allure.step('Клик по кнопке "Ленте заказов')
-    def click_order_list(self):
-        self.click(self.BUTTON_ORDER_LIST)
+    def click_order_feed(self):
+        self.click(self.BUTTON_FEED)
+
+    @allure.step('Находим заказ в ленте заказов с требуемым номером')
+    def find_order_in_feed(self, number):
+        order_locator = (By.XPATH, f"//div[contains(@class,'OrderFeed_contentBox__3-tWb')]//p[contains(text(), '{number}')]")
+        element = self.find_element_with_wait(order_locator)
+        return element
 
     @allure.step('Ищем заголовок карточки заказа')
     def wait_and_find_order_card(self):
@@ -95,7 +101,7 @@ class OrderListPage(BasePage):
 
     @allure.step('Кликнуть по кнопке "Лента заказов" и дождаться появления левого блока')
     def click_order_list_and_wait_left_block(self):
-        self.click_order_list()
+        self.click_order_feed()
         self.wait_and_find_left_block()
 
     @allure.step('Дождаться появления блока со счетчиком "За все время"')
@@ -116,12 +122,12 @@ class OrderListPage(BasePage):
 
     @allure.step('Кликнуть по кнопке "Лента заказов" и дождаться появления блока счетчика "За все время"')
     def click_order_list_and_find_block_total(self):
-        self.click_order_list()
+        self.click_order_feed()
         self.wait_and_find_block_total()
 
     @allure.step('Кликнуть по кнопке "Лента заказов" и дождаться появления блока счетчика "За сегодня"')
     def click_order_list_find_block_daily(self):
-        self.click_order_list()
+        self.click_order_feed()
         self.wait_and_find_block_daily()
 
     @allure.step('Дождаться появления блока раздела "В работе"')
@@ -134,10 +140,10 @@ class OrderListPage(BasePage):
 
     @allure.step('Кликнуть по кнопке "Лента заказов" и дождаться появления блока раздела "В работе"')
     def click_order_list_find_in_work(self):
-        self.click_order_list()
+        self.click_order_feed()
         self.wait_and_find_number_in_work()
 
-    BUTTON_ORDER_LIST = (By.XPATH, "//p[text()='Лента Заказов']")
+    BUTTON_FEED = (By.XPATH, "//p[text()='Лента Заказов']")
     ORDER_NUMBER_CARD = (By.XPATH, "(//p[@class='text text_type_digits-default'])[1]")
     ORDER_COUNT_TOTAL = (By.XPATH, "//div[@class='undefined mb-15']/p[@class='OrderFeed_number__2MbrQ text text_type_digits-large']")
     ORDER_COUNT_DAY = (By.XPATH, "(//div/p[@class='OrderFeed_number__2MbrQ text text_type_digits-large'])[2]")

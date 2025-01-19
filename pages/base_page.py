@@ -8,6 +8,11 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
+    @allure.step('Кликаем по элементу с нужным локатором')
+    def click(self, locator):
+        button = self.driver.find_element(*locator)
+        self.driver.execute_script("arguments[0].click();", button)
+
     @allure.step('Получить текущий адрес страницы')
     def get_current_url(self):
         return self.driver.current_url
@@ -29,9 +34,3 @@ class BasePage:
     @allure.step('Дожидаемся появления элемента и возвращаем его текст')
     def get_element_text(self, locator):
         return self.find_element_with_wait(locator).text
-
-    @allure.step('Кликаем по элементу с нужным локатором')
-    def click(self, locator):
-        button = self.driver.find_element(*locator)
-        self.driver.execute_script("arguments[0].click();", button)
-
