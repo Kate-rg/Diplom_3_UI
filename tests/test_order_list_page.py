@@ -91,8 +91,5 @@ class TestOrderList:
         page.click_order_list_find_in_work()
         order_in_work = page.number_in_work_text()
 
-        import time
-        time.sleep(500)
-
         assert order_in_work in (order_in_profile[1:]) or (str(int(order_in_profile[1:])-1))
 
